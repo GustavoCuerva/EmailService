@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using EmailService.Application.Email;
+using EmailService.Common;
+using EmailService.Presentation.Extensions;
+using FluentValidation;
+using FluentValidation.Results;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace EmailService.Presentation.Endpoints
 {
@@ -8,11 +13,18 @@ namespace EmailService.Presentation.Endpoints
         {
             var endpoints = app.MapGroup("api/email");
 
-            endpoints.MapGet("/send", SendEmail);
+            endpoints.MapPost("/send", SendEmail);
         }
 
-        public static async Task<Results<Ok<string>, BadRequest<string>>> SendEmail()
+        public static async Task<Results<Ok<string>, BadRequest<List<Error>>>> SendEmail(
+            SendEmailRequest request,
+            IValidator<SendEmailRequest> validatorSendEmail
+            )
         {
+            var validationResult = await validatorSendEmail.ValidateAsync(request);
+            if (!validationResult.IsValid)
+                return TypedResults.BadRequest(validationResult.ToErrorList());
+
             return TypedResults.Ok("Ok");
         }
     }
