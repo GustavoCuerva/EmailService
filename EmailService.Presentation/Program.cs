@@ -1,10 +1,12 @@
 using EmailService.Application;
+using EmailService.Infrastructure;
 using EmailService.Presentation.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddInfrastructureServices();
 builder.Services.AddApplicationService();
 
 builder.Services.AddControllers();

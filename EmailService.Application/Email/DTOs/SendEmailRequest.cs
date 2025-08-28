@@ -1,4 +1,4 @@
-﻿namespace EmailService.Application.Email
+﻿namespace EmailService.Application.Email.DTOs
 {
     public record SendEmailRequest
     {

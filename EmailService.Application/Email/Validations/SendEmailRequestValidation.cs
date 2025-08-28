@@ -1,6 +1,7 @@
-﻿using FluentValidation;
+﻿using EmailService.Application.Email.DTOs;
+using FluentValidation;
 
-namespace EmailService.Application.Email
+namespace EmailService.Application.Email.Validations
 {
     public class SendEmailRequestValidation : AbstractValidator<SendEmailRequest>
     {
