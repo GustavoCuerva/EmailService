@@ -19,7 +19,7 @@ builder.Services.AddProblemDetails(configure =>
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 // Add services to the container.
-
+builder.Services.AddHttpClient();
 builder.Services.AddInfrastructureServices();
 builder.Services.AddApplicationService();
 

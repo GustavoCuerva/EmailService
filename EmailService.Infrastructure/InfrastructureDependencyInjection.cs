@@ -7,7 +7,7 @@ public static class InfrastructureDependencyInjection
 {
 	public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
 	{
-		services.AddScoped<IClientEmail, SendGridService>();
+		services.AddScoped<IClientEmail, MaligunService>();
 
 		return services;
 	}
