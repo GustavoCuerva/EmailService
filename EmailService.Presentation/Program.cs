@@ -7,6 +7,17 @@ using EmailService.Presentation.Middleware;
 Env.Load();
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddProblemDetails(configure =>
+{
+	configure.CustomizeProblemDetails = context =>
+	{
+		context.ProblemDetails.Extensions.TryAdd("requestId", context.HttpContext.TraceIdentifier);
+		context.ProblemDetails.Extensions.TryAdd("timestamp", DateTimeOffset.Now);
+		context.ProblemDetails.Extensions.Remove("exception");
+	};
+});
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
 // Add services to the container.
 
 builder.Services.AddInfrastructureServices();
