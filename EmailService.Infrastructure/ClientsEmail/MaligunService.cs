@@ -1,6 +1,8 @@
 ﻿using DotNetEnv;
 using EmailService.Application.Email;
 using EmailService.Application.Email.DTOs;
+using EmailService.Common;
+using System.Net;
 using System.Text;
 
 namespace EmailService.Infrastructure.ClientsEmail;
@@ -39,7 +41,7 @@ public class MaligunService : IClientEmail
 
 		return new ReturnEmailViewModel
 		{
-			Status = "Teste",
+			Status = response.StatusCode.ToString(),
 			DateTime = DateTimeOffset.Now
 		};
 	}
