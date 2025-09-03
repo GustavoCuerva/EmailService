@@ -8,7 +8,7 @@ public static class ApplicationDependencyInjection
 {
     public static IServiceCollection AddApplicationService(this IServiceCollection services)
     {
-	services.AddScoped<ISendEmailService, SendEmailService>();
+		services.AddScoped<ISendEmailService, SendEmailService>();
 
         services.AddValidatorsFromAssemblyContaining<SendEmailRequest>();
         return services;
