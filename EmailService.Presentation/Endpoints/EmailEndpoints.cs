@@ -28,6 +28,9 @@ public static class EmailEndpoints
 
 		var result = await sendEmailService.SendEmail(request);
 
-        return TypedResults.Ok(result);
+		if (result.IsFailure)
+			return TypedResults.BadRequest(result.Errors);
+
+		return TypedResults.Ok(result.Data);
     }
 }

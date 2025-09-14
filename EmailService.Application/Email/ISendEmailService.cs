@@ -1,7 +1,8 @@
-﻿using EmailService.Application.Email.DTOs;
+﻿using Affinity.WebServiceAPI.Common;
+using EmailService.Application.Email.DTOs;
 
 namespace EmailService.Application.Email;
 public interface ISendEmailService
 {
-	public Task<ReturnEmailViewModel> SendEmail(SendEmailRequest request);
+	public Task<Result<ReturnEmailViewModel>> SendEmail(SendEmailRequest request);
 }

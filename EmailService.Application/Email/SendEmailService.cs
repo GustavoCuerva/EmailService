@@ -1,4 +1,5 @@
-﻿using EmailService.Application.Email.DTOs;
+﻿using Affinity.WebServiceAPI.Common;
+using EmailService.Application.Email.DTOs;
 
 namespace EmailService.Application.Email;
 
@@ -8,9 +9,13 @@ public class SendEmailService : ISendEmailService
 
 	public SendEmailService(IClientEmail clientEmail) => _clientEmail = clientEmail;
 
-	public async Task<ReturnEmailViewModel> SendEmail(SendEmailRequest request)
+	public async Task<Result<ReturnEmailViewModel>> SendEmail(SendEmailRequest request)
     {
 		var response = await _clientEmail.SendEmailAsync(request);
+
+		if (response.IsFailure)
+			return response.Errors;
+
         return response;
     }
 }

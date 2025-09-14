@@ -1,4 +1,5 @@
-﻿using DotNetEnv;
+﻿using Affinity.WebServiceAPI.Common;
+using DotNetEnv;
 using EmailService.Application.Email;
 using EmailService.Application.Email.DTOs;
 using EmailService.Common;
@@ -27,7 +28,7 @@ public class MaligunService : IClientEmail
 			new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", _auth);
 	}
 
-	public async Task<ReturnEmailViewModel> SendEmailAsync(SendEmailRequest request)
+	public async Task<Result<ReturnEmailViewModel>> SendEmailAsync(SendEmailRequest request)
 	{
 		var data = new FormUrlEncodedContent(new[]
 		{
@@ -38,10 +39,14 @@ public class MaligunService : IClientEmail
 		});
 
 		var response = await _httpClient.PostAsync($"/v3/{_domain}/messages", data);
+		string statusCode = response.StatusCode.ToString();
+
+		if (response.StatusCode == HttpStatusCode.BadRequest)
+			return new Error(statusCode, "Error in send email");
 
 		return new ReturnEmailViewModel
 		{
-			Status = response.StatusCode.ToString(),
+			Status = statusCode,
 			DateTime = DateTimeOffset.Now
 		};
 	}
