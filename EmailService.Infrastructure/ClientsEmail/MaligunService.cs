@@ -1,8 +1,8 @@
-﻿using Affinity.WebServiceAPI.Common;
-using DotNetEnv;
+﻿using DotNetEnv;
 using EmailService.Application.Email;
 using EmailService.Application.Email.DTOs;
 using EmailService.Common;
+using EmailService.Domain;
 using System.Net;
 using System.Text;
 
@@ -28,14 +28,14 @@ public class MaligunService : IClientEmail
 			new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", _auth);
 	}
 
-	public async Task<Result<ReturnEmailViewModel>> SendEmailAsync(SendEmailRequest request)
+	public async Task<Result<ReturnEmailViewModel>> SendEmailAsync(EmailEntity email)
 	{
 		var data = new FormUrlEncodedContent(new[]
 		{
 			new KeyValuePair<string, string>("from", _fromEmail),
-			new KeyValuePair<string, string>("to", request.to),
-			new KeyValuePair<string, string>("subject", request.subject),
-			new KeyValuePair<string, string>("text", request.body)
+			new KeyValuePair<string, string>("to", email.To),
+			new KeyValuePair<string, string>("subject", email.Subject),
+			new KeyValuePair<string, string>("text", email.Body)
 		});
 
 		var response = await _httpClient.PostAsync($"/v3/{_domain}/messages", data);

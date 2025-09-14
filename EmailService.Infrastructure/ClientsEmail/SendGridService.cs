@@ -1,8 +1,8 @@
-﻿using Affinity.WebServiceAPI.Common;
-using DotNetEnv;
+﻿using DotNetEnv;
 using EmailService.Application.Email;
 using EmailService.Application.Email.DTOs;
 using EmailService.Common;
+using EmailService.Domain;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System.Net;
@@ -23,14 +23,14 @@ public class SendGridService : IClientEmail
 		_fromName = Env.GetString("SEND-GRID-EMAIL-NAME");
 	}
 
-	public async Task<Result<ReturnEmailViewModel>> SendEmailAsync(SendEmailRequest request)
+	public async Task<Result<ReturnEmailViewModel>> SendEmailAsync(EmailEntity email)
 	{
 		var from = new EmailAddress(_fromEmail, _fromName);
-		var to = new EmailAddress(request.to, "User");
-		string subject = request.subject;
+		var to = new EmailAddress(email.To, "User");
+		string subject = email.Subject;
 
 		string plainTextContent = string.Empty;
-		string body = request.body;
+		string body = email.Body;
 
 		var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, body);
 		var response = await _sendGridClient.SendEmailAsync(msg);

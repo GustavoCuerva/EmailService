@@ -1,6 +1,4 @@
-﻿using EmailService.Common;
-
-namespace Affinity.WebServiceAPI.Common;
+﻿namespace EmailService.Common;
 
 public class Result
 {

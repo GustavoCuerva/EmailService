@@ -1,8 +1,9 @@
-﻿using Affinity.WebServiceAPI.Common;
-using EmailService.Application.Email.DTOs;
+﻿using EmailService.Application.Email.DTOs;
+using EmailService.Common;
+using EmailService.Domain;
 
 namespace EmailService.Application.Email;
 public interface IClientEmail
 {
-	public Task<Result<ReturnEmailViewModel>> SendEmailAsync(SendEmailRequest request);
+	public Task<Result<ReturnEmailViewModel>> SendEmailAsync(EmailEntity email);
 }

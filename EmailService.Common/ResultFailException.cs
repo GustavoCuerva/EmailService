@@ -1,7 +1,6 @@
-﻿using EmailService.Common;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 
-namespace Affinity.WebServiceAPI.Common;
+namespace EmailService.Common;
 
 public class ResultFailException : Exception
 {

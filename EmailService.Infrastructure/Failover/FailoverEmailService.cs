@@ -1,6 +1,7 @@
-﻿using Affinity.WebServiceAPI.Common;
-using EmailService.Application.Email;
+﻿using EmailService.Application.Email;
 using EmailService.Application.Email.DTOs;
+using EmailService.Common;
+using EmailService.Domain;
 using EmailService.Infrastructure.ClientsEmail;
 using Polly;
 
@@ -16,17 +17,17 @@ public class FailoverEmailService: IClientEmail
 		_secondaryEmailClient = secondaryEmailClient;
 	}
 
-	public async Task<Result<ReturnEmailViewModel>> SendEmailAsync(SendEmailRequest request)
+	public async Task<Result<ReturnEmailViewModel>> SendEmailAsync(EmailEntity email)
 	{
 		var fallbackPolicy = Policy<Result<ReturnEmailViewModel>>
 			   .Handle<Exception>()
 			   .FallbackAsync(
-				   async (ct) => await _secondaryEmailClient.SendEmailAsync(request),
+				   async (ct) => await _secondaryEmailClient.SendEmailAsync(email),
 				   async (ex) =>
 				   {
 					   Console.WriteLine($"[Failover] Tentando fallback por erro: {ex.Exception.Message}");
 				   });
 
-		return await fallbackPolicy.ExecuteAsync(() => _primaryEmailClient.SendEmailAsync(request));
+		return await fallbackPolicy.ExecuteAsync(() => _primaryEmailClient.SendEmailAsync(email));
 	}
 }

@@ -1,5 +1,5 @@
-﻿using Affinity.WebServiceAPI.Common;
-using EmailService.Application.Email.DTOs;
+﻿using EmailService.Application.Email.DTOs;
+using EmailService.Common;
 
 namespace EmailService.Application.Email;
 public interface ISendEmailService
